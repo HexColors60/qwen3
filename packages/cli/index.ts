@@ -13,6 +13,9 @@ import { writeStderrLine } from './src/utils/stdioHelpers.js';
 
 // --- Global Entry Point ---
 
+const cwd = process.cwd();
+process.stdout.write('\x1b]0;qwen3 ' + cwd + '\x07');
+
 // Suppress known race condition in @lydell/node-pty on Windows where a
 // deferred resize fires after the pty process has already exited.
 // Tracking bug: https://github.com/microsoft/node-pty/issues/827
