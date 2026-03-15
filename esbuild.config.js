@@ -23,7 +23,11 @@ const require = createRequire(import.meta.url);
 const pkg = require(path.resolve(__dirname, 'package.json'));
 
 // Clean dist directory (cross-platform)
-rmSync(path.resolve(__dirname, 'dist'), { recursive: true, force: true });
+try {
+  rmSync(path.resolve(__dirname, 'dist'), { recursive: true, force: true });
+} catch (_e) {
+  // Windows may hold file locks; proceed with overwrite
+}
 
 const external = [
   '@lydell/node-pty',
