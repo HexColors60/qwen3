@@ -13,6 +13,9 @@ import { writeStderrLine } from './src/utils/stdioHelpers.js';
 
 // --- Global Entry Point ---
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(process as any).noDeprecation = true;
+
 const cwd = process.cwd();
 process.stdout.write('\x1b]0;qwen3 ' + cwd + '\x07');
 
