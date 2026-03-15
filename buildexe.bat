@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo  Building qwen3.exe
+echo  Building qwen.exe
 echo ========================================
 
 cd /d "%~dp0"
@@ -63,8 +63,8 @@ if errorlevel 1 (
 
 :: Step 7: Copy node.exe and inject blob
 echo.
-echo [7/8] Creating qwen3.exe...
-copy /y "%~dp0node_modules\node\bin\node.exe" dist\qwen3.exe >nul 2>&1
+echo [7/8] Creating qwen.exe...
+copy /y "%~dp0node_modules\node\bin\node.exe" dist\qwen.exe >nul 2>&1
 if errorlevel 1 (
     :: Fallback: copy from system node
     where node >nul 2>&1
@@ -73,16 +73,16 @@ if errorlevel 1 (
         exit /b 1
     )
     for /f "delims=" %%i in ('where node') do set "NODE_PATH=%%i"
-    copy /y "!NODE_PATH!" dist\qwen3.exe >nul
+    copy /y "!NODE_PATH!" dist\qwen.exe >nul
 )
 
 :: Remove signature (required for SEA injection on Windows)
-signtool remove /s dist\qwen3.exe >nul 2>&1
+signtool remove /s dist\qwen.exe >nul 2>&1
 
 :: Step 8: Inject the blob
 echo.
 echo [8/8] Injecting SEA blob...
-npx --yes postject dist/qwen3.exe NODE_SEA_BLOB dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+npx --yes postject dist/qwen.exe NODE_SEA_BLOB dist/sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 if errorlevel 1 (
     echo ERROR: postject injection failed
     exit /b 1
@@ -105,7 +105,7 @@ if exist dist\vendor (
 
 echo.
 echo ========================================
-echo  Build complete: dist\qwen3.exe
+echo  Build complete: dist\qwen.exe
 echo ========================================
 echo.
 
