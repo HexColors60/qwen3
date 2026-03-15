@@ -19,7 +19,11 @@ let code = readFileSync(inputPath, 'utf8');
 code = code.replace(/^#![^\n]*\n/, '');
 
 // Replace import.meta.url with CJS equivalent
-code = code.replace(/import\.meta\.url/g, '"file://" + __filename');
+// In SEA context, __filename may be undefined; use process.execPath as fallback
+code = code.replace(
+  /import\.meta\.url/g,
+  'require("node:url").pathToFileURL(__filename || process.execPath).href',
+);
 
 // Convert all import statements for external packages to require()
 // Handles: import X from "pkg", import { a, b as c } from "pkg",
